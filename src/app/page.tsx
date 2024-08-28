@@ -29,8 +29,8 @@ export default function Home() {
       <Pointer x={mx} y={my} />
       <div className="container">
         <section id="hero" className="min-h-screen flex flex-col justify-center">
-          <h1 className={`text-8xl font-extrabold`}>Sourabh Malviya</h1>
-          <p className="text-7xl font-bold text-primary italic">
+          <h1 className={`text-3xl md:text-5xl lg:text-7xl xl:text-7xl font-extrabold`}>Sourabh Malviya</h1>
+          <p className="text-xl md:text-3xl lg:text-5xl xl:text-5xl font-bold text-primary italic">
             {role}
             <span className="animate-ping">.</span>
           </p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { ConfigContext } from "@/components/system/config-provider";
 
@@ -9,8 +9,17 @@ type PointerProps = { x: number; y: number };
 export function Pointer({ x, y }: Readonly<PointerProps>) {
   const ref = useRef<HTMLElement>(null);
   const { interactiveElements } = useContext(ConfigContext);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
-  let size = !(x || y) ? { h: "h-0", w: "w-0" } : { h: "h-80", w: "w-80" };
+  useEffect(() => {
+    // Detect if device has touch capability
+    setIsTouchDevice("ontouchstart" in globalThis || navigator.maxTouchPoints > 0);
+  }, []);
+
+  // Hide pointer on touch devices
+  if (isTouchDevice) return null;
+
+  let size = x || y ? { h: "h-80", w: "w-80" } : { h: "h-0", w: "w-0" };
 
   for (const element of interactiveElements) {
     const elRects = element.getClientRects().item(0);

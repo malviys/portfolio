@@ -5,15 +5,15 @@ import Footer from "@/app/shared/footer";
 import Header from "@/app/shared/header";
 import ConfigProvider from "@/components/system/config-provider";
 import { ThemeProvider } from "@/components/system/theme-provider";
-import { ConsoleWarning } from "@/components/ui/warning";
 
 import "@/app/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Malviya Sourabh",
-  description: "Created by master🙏 itself",
+  title: "Sourabh Malviya — Software Engineer",
+  description:
+    "Portfolio of Sourabh Malviya — Senior Software Engineer building products from mobile apps to scalable platforms.",
 };
 
 export default function RootLayout({
@@ -22,17 +22,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`min-h-screen overflow-x-hidden ${inter.className}`}>
         <ConfigProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
             <Header />
             {children}
             <Footer />
           </ThemeProvider>
         </ConfigProvider>
       </body>
-      <ConsoleWarning message="!!This Portfolio is in development!!" />
     </html>
   );
 }

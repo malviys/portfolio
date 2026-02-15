@@ -37,7 +37,7 @@ export function Pointer({ x, y }: Readonly<PointerProps>) {
     <span
       ref={ref}
       id="pointer"
-      className={`fixed z-50 rounded-full bg-background mix-blend-difference -translate-x-1/2 -translate-y-1/2 transition-[height,width] duration-500 ${h} ${w}`}
+      className={`pointer-events-none fixed z-50 rounded-full bg-white mix-blend-difference -translate-x-1/2 -translate-y-1/2 transition-[height,width] duration-500 ${h} ${w}`}
       style={{ left: x, top: y }}
     />
   );

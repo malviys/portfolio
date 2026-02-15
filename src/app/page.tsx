@@ -17,7 +17,7 @@ const projects = [
     href: "https://moe-ui.saurabhmalvia997.workers.dev/",
   },
   {
-    title: "Roshi.Dev",
+    title: "Roshi",
     description:
       "A SaaS platform for building applications the better way — streamlining development workflows with modern tooling and best practices.",
     techStack: [],

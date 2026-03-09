@@ -8,8 +8,8 @@ type InteractiveProps = Readonly<{ children: ReactElement }>;
 
 export default function Interactive({ children }: InteractiveProps) {
   const { addInteractiveElements, removeInteractiveElements } = useContext(ConfigContext);
-  const ref = useRef<HTMLElement>();
-  const id = 'interactive_' + useId();
+  const ref = useRef<HTMLElement>(null);
+  const id = "interactive_" + useId();
 
   useEffect(() => {
     const { current } = ref;
@@ -25,5 +25,5 @@ export default function Interactive({ children }: InteractiveProps) {
     };
   }, [addInteractiveElements, removeInteractiveElements]);
 
-  return cloneElement(children, { id, ref });
+  return cloneElement(children as ReactElement<any>, { id, ref });
 }

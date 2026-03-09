@@ -1,18 +1,11 @@
 import { useEffect, useState } from "react";
 
-/**
- * Typewriter hook with same feel
- * @param texts -- texts to be typed
- * @param init  --  initial text to be typed
- * @param duration --  duration of each character
- * @param delay -- delay before next text
- * @returns --  typed text
- */
+// Typewriter hook with same feel
 export function useTypewriter<T extends readonly [string, ...string[]]>(
   texts: T,
   init?: T[number],
   duration = 120,
-  delay = 50
+  delay = 50,
 ) {
   const [text, setText] = useState(init ?? texts[0]);
 

@@ -23,10 +23,18 @@ export default function Header() {
         <nav className="flex items-center gap-6">
           <Interactive>
             <Link
-              href="#projects"
+              href="/#projects"
               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               Projects
+            </Link>
+          </Interactive>
+          <Interactive>
+            <Link
+              href="/blog"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Learnings
             </Link>
           </Interactive>
           <Interactive>

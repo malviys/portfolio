@@ -22,10 +22,18 @@ const statusConfig: Record<Status, { label: string; dot: string }> = {
   development: { label: "In Development", dot: "bg-amber-400" },
 };
 
-export function ProjectCard({ title, description, techStack, status, href, githubUrl, className }: ProjectCardProps) {
+export function ProjectCard({
+  title,
+  description,
+  techStack,
+  status,
+  href,
+  githubUrl,
+  className,
+}: Readonly<ProjectCardProps>) {
   const { label, dot } = statusConfig[status];
 
-  const content = (
+  return (
     <article
       className={cn(
         "group relative flex flex-col gap-4 rounded-2xl p-6 sm:p-8",
@@ -37,18 +45,33 @@ export function ProjectCard({ title, description, techStack, status, href, githu
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
-        <h3 className="text-xl font-bold tracking-tight sm:text-2xl">{title}</h3>
-        <div className="flex items-center gap-2 shrink-0">
+        <h3 className="text-xl font-bold tracking-tight sm:text-2xl">
+          {href ? (
+            <Link
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="before:absolute before:inset-0 before:z-10 text-foreground"
+            >
+              {title}
+            </Link>
+          ) : (
+            title
+          )}
+        </h3>
+        <div className="flex items-center gap-2 shrink-0 relative z-20">
           <span className={cn("h-2 w-2 rounded-full", dot)} />
           <span className="text-xs font-medium text-muted-foreground">{label}</span>
         </div>
       </div>
 
       {/* Description */}
-      <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">{description}</p>
+      <p className="text-sm leading-relaxed text-muted-foreground sm:text-base relative z-20 pointer-events-none">
+        {description}
+      </p>
 
       {/* Tech Stack */}
-      <div className="flex flex-wrap gap-2 mt-auto">
+      <div className="flex flex-wrap gap-2 mt-auto relative z-20 pointer-events-none">
         {techStack.map((tech) => (
           <span
             key={tech}
@@ -67,7 +90,6 @@ export function ProjectCard({ title, description, techStack, status, href, githu
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-            onClick={(e) => e.stopPropagation()}
           >
             <Github className="h-4 w-4" />
             Source
@@ -83,14 +105,4 @@ export function ProjectCard({ title, description, techStack, status, href, githu
       </div>
     </article>
   );
-
-  if (href) {
-    return (
-      <Link href={href} target="_blank" rel="noopener noreferrer">
-        {content}
-      </Link>
-    );
-  }
-
-  return content;
 }

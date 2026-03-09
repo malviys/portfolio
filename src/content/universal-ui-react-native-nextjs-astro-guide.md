@@ -8,7 +8,7 @@ tags: ["React Native", "Next.js", "Astro", "Web", "Universal UI"]
 ---
 In this blog, we'll explore how to integrate React Native with different web frameworks — specifically Next.js and Astro — so that your application can share the same UI components across all of them. No rewrites, no duplicate logic, one component library that runs everywhere.
 
-## The Vision
+## 🎯 The Vision
 
 I set out to build a universal, web-first application that I could later extend to Android and iOS — write the components once, run them everywhere. Two frameworks were on the table: React Native and Flutter. Flutter is impressive, but its web output compiles to WebAssembly, which wasn't the direction I wanted to go. React Native, on the other hand, has a rich ecosystem, a massive community, and — critically — `react-native-web`, which bridges native UI primitives directly to the browser as real DOM. That combination made it the clear choice.
 
@@ -16,7 +16,7 @@ For UI components, I'm a longtime fan of `shadcn/ui`, so I gravitated towards `r
 
 The architecture felt clean. The vision was clear. Then I started writing code.
 
-## The Styling Nightmare
+## 😤 The Styling Nightmare
 
 I spun up a new project: Next.js, Fumadocs, Expo (`react-native-web`), and NativeWind for Tailwind bindings. Installation was surprisingly smooth. I added `react-native` and `react-native-web` to `transpilePackages`, along with a Webpack alias in `next.config.mjs` to redirect native imports to their web counterparts:
 
@@ -138,7 +138,7 @@ react-dom@19.2.4_react@19.2.4__react@19.2._z4xebelne4u5qx47hftvrkbhhe/node_modul
 
 I tried everything. Weeks of debugging. After burning through what felt like an unreasonable number of Claude tokens, I went back to the source: the Webpack plugins themselves. The root cause was subtle but devastating. These libraries redirect every `react-native` import to their own custom implementations. With the Uniwind Webpack plugin specifically, some of those component implementations simply don't exist — so when Webpack goes looking for them, there's no file to reference. That's where the `exports not found` errors were coming from.
 
-## The Breakthrough: Vite & Astro
+## 💡 The Breakthrough: Vite & Astro
 
 Re-reading the Uniwind documentation with fresh eyes, I spotted something I'd glossed over: Uniwind also ships a **Vite plugin**. Since Astro uses Vite under the hood, I decided to take the Webpack path entirely off the table and try Astro + Vite instead.
 
@@ -156,7 +156,7 @@ One last snag remained: when I introduced custom CSS variables, `lightningcss` (
 
 Then it all clicked. Styles applied. Components rendered perfectly. The POC was alive.
 
-## The Stack That Finally Worked
+## 🧱 The Stack That Finally Worked
 
 Here's what the architecture looked like after all the dust settled:
 
@@ -164,7 +164,7 @@ Here's what the architecture looked like after all the dust settled:
 - **Astro.js** — the web layer. Zero JavaScript by default, Vite under the hood, and Island Architecture for opting into interactivity exactly where you need it.
 - **Uniwind** — the styling glue. Standard Tailwind utility classes that work seamlessly across native mobile and the web, via Vite.
 
-## Building a Universal Component
+## 🔧 Building a Universal Component
 
 Here's what a component looks like in practice. Thanks to Uniwind, you use standard Tailwind classes directly on React Native primitives — and this single file renders correctly on iOS, Android, *and* in the browser:
 
@@ -214,7 +214,7 @@ import { UniversalCard } from '../components/UniversalCard';
 
 Astro's Island Architecture means you get static rendering for free, and you opt into JavaScript only for the parts that actually need it — perfect for a button press or an animation.
 
-## The Configuration That Makes It All Work
+## ⚙️ The Configuration That Makes It All Work
 
 Getting Vite to bundle React Native components for the web requires a few very specific tweaks in `astro.config.mjs`:
 
@@ -266,10 +266,20 @@ Each piece of this config earned its place the hard way:
 - **Preventing SSR Crashes (`noExternal`)** — Astro renders pages on the server by default. Node.js will try to execute packages that expect a browser environment and promptly crash. Adding them to `noExternal` forces Vite to bundle and process these dependencies correctly during SSR rather than leaving them as raw external imports.
 - **The Plugin Collision Fix** — `vite-plugin-rnw` tries to register the React plugin internally, but Astro's `react()` integration already does this. The collision causes Vite to throw errors. Filtering out array entries from the `rnw()` plugin array prevents the double registration.
 
-## Conclusion
+## 🏁 Conclusion
 
-After weeks of fighting Webpack internals and configuration rabbit holes, the answer turned out to be surprisingly clean: abandon the Webpack path entirely, embrace Vite, and let Astro do what it does best.
+What started as a straightforward idea — one component library, every platform — turned into a deep dive through Webpack internals, silent Tailwind failures, and cascading exports not defined errors. The culprit wasn't React Native, and it wasn't the component libraries. It was Webpack's inability to correctly handle the module resolution and plugin composition that NativeWind and Uniwind depend on.
 
-With this setup, "write once, run anywhere" actually feels achievable — not as a marketing slogan, but as a practical daily workflow. React Native Web bridges the UI primitives, Uniwind unifies the styling via standard Tailwind classes, and Astro serves it blazing fast on the web.
+The fix came from stepping off the Webpack path entirely. Switching to Astro + Vite resolved most issues instantly, and a pinned lightningcss version cleared the final hurdle. The result: a fully working POC where a single React Native component — styled with standard Tailwind classes via Uniwind — renders correctly on iOS, Android, and the web without a single line rewritten.
 
-Your marketing team asks for a landing page. You already have it.
+If you're building a universal component library and hitting the same walls, the TLDR is: skip Next.js for now, reach for Astro, use the Vite plugin, and pin your lightningcss version.
+
+## 🔬 Final Verdict & What's Next
+
+The Astro + Vite path works, and the POC is live — you can see it here: [astor-expo.saurabhmalvia997.workers.dev](https://astor-expo.saurabhmalvia997.workers.dev)
+
+But I'm not done yet.
+
+I'm still heavily invested in understanding the Webpack side of this problem. The dream is proper, first-class support for both NativeWind and Uniwind on Webpack — which would unblock Next.js and make this setup accessible to the majority of React Native Web projects that haven't moved to Vite. Getting there requires a much deeper understanding of how these bundlers handle module resolution, alias chains, and plugin composition.
+
+So the research continues. If you've dug into this space or have thoughts on how Webpack could properly support NativeWind or Uniwind, I'd genuinely love to connect.

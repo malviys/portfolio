@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Github } from "lucide-react";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
@@ -13,6 +13,7 @@ interface ProjectCardProps {
   techStack: string[];
   status: Status;
   href?: string;
+  githubUrl?: string;
   className?: string;
 }
 
@@ -21,7 +22,7 @@ const statusConfig: Record<Status, { label: string; dot: string }> = {
   development: { label: "In Development", dot: "bg-amber-400" },
 };
 
-export function ProjectCard({ title, description, techStack, status, href, className }: ProjectCardProps) {
+export function ProjectCard({ title, description, techStack, status, href, githubUrl, className }: ProjectCardProps) {
   const { label, dot } = statusConfig[status];
 
   const content = (
@@ -59,13 +60,27 @@ export function ProjectCard({ title, description, techStack, status, href, class
       </div>
 
       {/* Link indicator */}
-      {href ? (
-        <div className="flex items-center gap-1 text-sm font-medium text-primary transition-transform duration-300 group-hover:translate-x-1">
-          Visit <ArrowUpRight className="h-4 w-4" />
-        </div>
-      ) : (
-        <div className="text-sm font-medium text-muted-foreground/60">Coming Soon</div>
-      )}
+      <div className="flex items-center gap-4 mt-auto pt-4 relative z-20">
+        {githubUrl && (
+          <a
+            href={githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Github className="h-4 w-4" />
+            Source
+          </a>
+        )}
+        {href ? (
+          <div className="flex items-center gap-1 text-sm font-medium text-primary transition-transform duration-300 group-hover:translate-x-1 ml-auto">
+            Visit <ArrowUpRight className="h-4 w-4" />
+          </div>
+        ) : (
+          <div className="text-sm font-medium text-muted-foreground/60 ml-auto">Coming Soon</div>
+        )}
+      </div>
     </article>
   );
 

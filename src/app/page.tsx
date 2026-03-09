@@ -9,6 +9,15 @@ const roles = ["Sr. Software Engineer", "Full Stack Developer", "React Native", 
 
 const projects = [
   {
+    title: "Astor Expo",
+    description:
+      "A POC showcasing React Native components built with Uniwind within an Astro Starlight web application.",
+    techStack: ["React Native", "Expo", "Uniwind", "TypeScript", "Astro", "Starlight"],
+    status: "live" as const,
+    href: "https://astor-expo.saurabhmalvia997.workers.dev/",
+    githubUrl: "https://github.com/malviys/astro-expo",
+  },
+  {
     title: "Moe UI",
     description:
       "Build your Universal Component Library. Bringing shadcn/ui to React Native with NativeWind — beautifully crafted, accessible components for iOS, Android, and Web.",

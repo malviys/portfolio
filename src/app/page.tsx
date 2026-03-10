@@ -10,7 +10,7 @@ const roles = ["Sr. Software Engineer", "Full Stack Developer", "React Native", 
 
 const projects = [
   {
-    title: "Astor Expo",
+    title: "Astro Expo",
     description:
       "A POC showcasing React Native components built with Uniwind within an Astro Starlight web application.",
     techStack: ["React Native", "Expo", "Uniwind", "TypeScript", "Astro", "Starlight"],

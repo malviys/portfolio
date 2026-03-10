@@ -1,5 +1,5 @@
 ---
-title: "A JavaScript Memory Leak Really…"
+title: "A JavaScript Memory Leak. Really…"
 description: "Understanding how garbage collection works in Node.js and how a memory leak can happen through closures."
 createdAt: "2024-02-15T00:00:00Z"
 publishedAt: "2024-02-15T00:00:00Z"

@@ -1,5 +1,6 @@
 "use client";
 
+import DotGrid from "@/components/ui/dot-grid";
 import { Pointer } from "@/components/ui/pointer";
 import { ProjectCard } from "@/components/ui/project-card";
 import { useMouse } from "@/hooks/mouse";
@@ -42,10 +43,25 @@ export default function Home() {
 
   return (
     <main className="relative">
-      <Pointer x={mx} y={my} />
+      <div className="absolute top-0 left-0 w-full h-full">
+        <DotGrid
+          dotSize={5}
+          gap={15}
+          baseColorDark="#ffffff15"
+          baseColorLight="#00000015"
+          activeColorDark="#5227FF"
+          activeColorLight="#5227FF"
+          proximity={120}
+          shockRadius={250}
+          shockStrength={5}
+          resistance={750}
+          returnDuration={1.5}
+        />
+      </div>
+      {/* <Pointer x={mx} y={my} /> */}
 
       {/* Background grain */}
-      <div className="pointer-events-none fixed inset-0 -z-10 opacity-[0.03] [background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIvPjwvc3ZnPg==')]" />
+      {/* <div className="pointer-events-none fixed inset-0 -z-10 opacity-[0.03] [background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIvPjwvc3ZnPg==')]" /> */}
 
       <div className="container mx-auto max-w-5xl px-6">
         {/* Hero */}

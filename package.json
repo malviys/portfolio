@@ -27,6 +27,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
+    "gsap": "^3.14.2",
     "lucide-react": "^0.428.0",
     "next": "16.1.6",
     "next-themes": "^0.3.0",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 import Footer from "@/app/shared/footer";
 import Header from "@/app/shared/header";
@@ -22,16 +23,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`min-h-screen overflow-x-hidden ${inter.className}`}>
-        <ConfigProvider>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-            <Header />
-            {children}
-            <Footer />
-          </ThemeProvider>
-        </ConfigProvider>
-      </body>
-    </html>
+    <>
+      <html lang="en" suppressHydrationWarning>
+        <body className={`min-h-screen overflow-x-hidden ${inter.className}`}>
+          <ConfigProvider>
+            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+              <Header />
+              {children}
+              <Footer />
+            </ThemeProvider>
+          </ConfigProvider>
+        </body>
+      </html>
+      <Analytics />
+    </>
   );
 }

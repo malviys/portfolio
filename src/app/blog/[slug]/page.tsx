@@ -141,6 +141,20 @@ export default async function BlogPost({ params }: BlogPostProps) {
                     );
                   }
 
+                  const imageMatch = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
+                  if (imageMatch) {
+                    const [, alt, url] = imageMatch;
+                    return (
+                      <div
+                        key={`img-${index}-${subIndex}`}
+                        className="my-8 overflow-hidden rounded-xl border border-border shadow-sm"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={url} alt={alt} className="w-full h-auto object-cover object-center" />
+                      </div>
+                    );
+                  }
+
                   return (
                     <p key={`p-${index}-${subIndex}`} className="mb-6">
                       {trimmed}

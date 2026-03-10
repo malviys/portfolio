@@ -3,6 +3,52 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getBlogPost, getBlogPosts } from "@/lib/blog";
+import ReactMarkdown, { Components } from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+const MarkdownComponents: Components = {
+  pre: ({ node, ...props }) => (
+    <div className="relative group my-8">
+      <pre
+        className="!bg-muted/50 !text-foreground overflow-x-auto p-4 md:p-6 rounded-xl border border-border/50 shadow-sm transition-all duration-300"
+        {...props}
+      />
+    </div>
+  ),
+  code: ({ node, inline, className, children, ...props }: any) => {
+    const match = /language-(\w+)/.exec(className || "");
+    const isInline = inline || !match;
+
+    if (!isInline) {
+      return (
+        <>
+          <div className="absolute right-4 top-4 text-xs font-mono text-muted-foreground bg-muted/80 border border-border backdrop-blur-sm px-2.5 py-1 rounded-md z-10 transition-colors group-hover:bg-muted">
+            {match[1]}
+          </div>
+          <code
+            className="!bg-transparent !p-0 !text-inherit text-sm font-mono leading-relaxed"
+            style={{ fontFamily: "var(--font-mono)" }}
+            {...props}
+          >
+            {children}
+          </code>
+        </>
+      );
+    }
+
+    return (
+      <code className={className} {...props}>
+        {children}
+      </code>
+    );
+  },
+  img: ({ node, ...props }) => (
+    <span className="block my-8 overflow-hidden rounded-xl border border-border shadow-sm">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="w-full h-auto object-cover object-center m-0" alt={props.alt || ""} {...props} />
+    </span>
+  ),
+};
 
 interface BlogPostProps {
   params: Promise<{
@@ -81,89 +127,9 @@ export default async function BlogPost({ params }: BlogPostProps) {
 
         {/* Markdown Render Wrapper */}
         <div className="animate-fade-in-up delay-200 prose prose-neutral dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary hover:prose-a:text-primary/80 prose-p:leading-relaxed prose-p:text-muted-foreground prose-pre:bg-muted/50 prose-pre:text-muted-foreground prose-pre:border prose-pre:border-border prose-code:text-primary prose-code:bg-muted/50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none">
-          {post.content.split("```").map((block, index) => {
-            // Odd indices in the split array are inside fenced code blocks
-            if (index % 2 === 1) {
-              const lines = block.split("\n");
-              const lang = lines[0].trim();
-              const code = lines.slice(1).join("\n");
-
-              return (
-                <div key={`${post.slug}-code-${index}`} className="relative group my-8">
-                  <div className="absolute right-4 top-4 text-xs font-mono text-muted-foreground bg-muted/80 border border-border backdrop-blur-sm px-2.5 py-1 rounded-md z-10 transition-colors group-hover:bg-muted">
-                    {lang || "text"}
-                  </div>
-                  <pre className="!bg-muted/50 !text-foreground overflow-x-auto p-4 md:p-6 rounded-xl border border-border/50 shadow-sm transition-all duration-300">
-                    <code
-                      className="!bg-transparent !p-0 !text-inherit text-sm font-mono leading-relaxed"
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
-                      {code}
-                    </code>
-                  </pre>
-                </div>
-              );
-            }
-
-            // Even indices are standard paragraphs. Let's further split by \n\n
-            return (
-              <div key={`${post.slug}-text-${index}`}>
-                {block.split("\n\n").map((paragraph, subIndex) => {
-                  const trimmed = paragraph.trim();
-                  if (!trimmed) return null;
-
-                  if (trimmed.startsWith("### ")) {
-                    return (
-                      <h3 key={`h3-${index}-${subIndex}`} className="mt-8 mb-4 text-xl font-bold">
-                        {trimmed.replace("### ", "")}
-                      </h3>
-                    );
-                  }
-
-                  if (trimmed.startsWith("## ")) {
-                    return (
-                      <h2 key={`h2-${index}-${subIndex}`} className="mt-10 mb-4 text-2xl font-bold">
-                        {trimmed.replace("## ", "")}
-                      </h2>
-                    );
-                  }
-
-                  if (trimmed.startsWith("* ") || trimmed.startsWith("- ")) {
-                    return (
-                      <ul
-                        key={`ul-${index}-${subIndex}`}
-                        className="list-disc pl-6 mb-6 space-y-2 marker:text-primary/50"
-                      >
-                        {trimmed.split("\n").map((item, itemIndex) => (
-                          <li key={`li-${index}-${subIndex}-${itemIndex}`}>{item.replace(/^[*|-]\s*/, "")}</li>
-                        ))}
-                      </ul>
-                    );
-                  }
-
-                  const imageMatch = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
-                  if (imageMatch) {
-                    const [, alt, url] = imageMatch;
-                    return (
-                      <div
-                        key={`img-${index}-${subIndex}`}
-                        className="my-8 overflow-hidden rounded-xl border border-border shadow-sm"
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={url} alt={alt} className="w-full h-auto object-cover object-center" />
-                      </div>
-                    );
-                  }
-
-                  return (
-                    <p key={`p-${index}-${subIndex}`} className="mb-6">
-                      {trimmed}
-                    </p>
-                  );
-                })}
-              </div>
-            );
-          })}
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={MarkdownComponents}>
+            {post.content}
+          </ReactMarkdown>
         </div>
       </article>
     </main>

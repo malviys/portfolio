@@ -5,7 +5,7 @@ import { TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, Check, ChevronDown, ChevronUp, Copy } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark, materialLight } from "react-syntax-highlighter/dist/cjs/styles/prism";
@@ -109,7 +109,11 @@ const CodeBlock = ({
 const getMarkdownComponents = (theme: string | undefined): any => ({
   tabs: ({ node, defaultvalue, groupid, value, ...props }: any) => {
     // We can infer a generic groupId if the user passes some "id" or "groupId".
-    return <InteractiveTabs groupId={groupid} defaultValue={defaultvalue} {...props} />;
+    return (
+      <Suspense>
+        <InteractiveTabs groupId={groupid} defaultValue={defaultvalue} {...props} />
+      </Suspense>
+    );
   },
   tabslist: ({ node, className, ...props }: any) => <TabsList className={className} {...props} />,
   tabstrigger: ({ node, className, ...props }: any) => <TabsTrigger className={className} {...props} />,

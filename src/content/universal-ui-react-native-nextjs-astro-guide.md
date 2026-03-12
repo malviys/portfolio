@@ -15,46 +15,28 @@ In this blog, we'll walk through how to integrate React Native with Next.js and 
 
 I set out to build a universal, web-first application that I could later extend to Android and iOS — write the components once, run them everywhere. Two frameworks were on the table: React Native and Flutter. Flutter is impressive, but its web output compiles to WebAssembly, which wasn't the direction I wanted to go. React Native, on the other hand, has a rich ecosystem, a massive community, and — critically — `react-native-web`, which bridges native UI primitives directly to the browser as real DOM. That combination made it the clear choice.
 
-For UI components, I'm a longtime fan of `shadcn/ui`, so I gravitated towards `react-native-reusables` (RNR) — a library built on shadcn primitives that was a joy to work with. But my use case demanded more: complex tables, rich filters, components from a handful of different libraries. Rather than spam the RNR repo or paint myself into a corner with a single design system, I decided to build my own custom component library, mixing and matching the best pieces from multiple sources.
+For UI components, I'm a longtime fan of `shadcn/ui`, so I gravitated towards `react-native-reusables` (RNR) — a library built on shadcn primitives that was a joy to work with. But my use case demanded more: complex tables, rich filters, components from a handful of different libraries. Rather than paint myself into a corner with a single design system, I built my own custom component library, mixing and matching the best pieces from multiple sources.
 
-The architecture felt clean. The vision was clear. Then I started writing code.
+The plan was to document and showcase these components on the web — using **Fumadocs** with Next.js and **Starlight** with Astro. The architecture felt clean. Then I started writing code.
 
 ---
 
 ## 📖 Background
 
-I spun up a new project: Next.js, Fumadocs, Expo (`react-native-web`), and NativeWind for Tailwind bindings. Getting React Native components to render inside Next.js was straightforward — add `react-native` and `react-native-web` to `transpilePackages`, add the Webpack alias, wrap everything in `withExpo`, and things just worked.
+React Native components work perfectly in the browser when you're using `react-native-web` with Metro as your bundler — that's the standard Expo web setup and it works well out of the box.
 
-Then I applied Tailwind classes to my components.
+But my use case was different. I wanted to render these same components inside **Next.js** (specifically for a Fumadocs documentation site) and **Astro** (for Starlight). Neither of these frameworks uses Metro — Next.js runs on Webpack, Astro runs on Vite — and there's no straightforward, documented solution for making React Native components work with Tailwind styling in either of them. This guide is the result of figuring that out the hard way.
 
-**Nothing happened.**
+Getting components to *render* turned out to be the easy part — `react-native-web` handles that well in both frameworks. The hard part was **Tailwind styling**.
 
-The components rendered fine, but every single Tailwind class was silently ignored. For weeks, I was deep in the mud: tweaking NativeWind configs, wrestling with Next.js settings, auditing Webpack. No solution materialized, so I went further — reading the actual source code of React Native Reusables, NativeWind, and the underlying Webpack plugins trying to understand what was breaking.
-
-Around this time, I discovered **Uniwind**. Thinking the issue was framework-specific, I tried a fresh Astro project. Same result. Components rendered. Tailwind styles: completely ignored.
-
-The Uniwind community provides a Next.js-compatible Webpack plugin. I tried it. It worked partially, before collapsing with a cascade of `exports not found` errors:
+With Next.js + Webpack, every Tailwind class applied to a React Native primitive was silently ignored. Weeks of debugging eventually pointed to the root cause: the Webpack plugins used by NativeWind and Uniwind redirect `react-native` imports to their own custom implementations, and some of those implementations simply don't exist in the Webpack context — which is where the `exports not found` errors come from.
 
 ```
 Runtime ReferenceError: exports is not defined
-
-Call Stack (30)
-(app-pages-browser)/../../node_modules/.pnpm/uniwind@1.5.0_react-native@0.83.1_@babel+core@7.29.0_
-@types+react@19.2.14_react@19.2.4__react@19.2.4_tailwindcss@4.2.1/node_modules/uniwind/dist/
-common/components/web/index.js
-.next/dev/static/chunks/app/docs/layout.js (7657:1)
-
-(app-pages-browser)/../../node_modules/.pnpm/@rn-primitives+hooks@1.3.0_react-native-web@0.21.2_
-react-dom@19.2.4_react@19.2.4__react@19.2._z4xebelne4u5qx47hftvrkbhhe/node_modules/
-@rn-primitives/hooks/dist/index.js
-.next/dev/static/chunks/app/docs/layout.js (689:1)
+...
 ```
 
-After digging into the Webpack plugins themselves, the root cause became clear. These libraries redirect every `react-native` import to their own custom implementations. With the Uniwind Webpack plugin specifically, some of those implementations simply don't exist — so when Webpack goes looking for them, there's no file to reference. That's where the `exports not found` errors come from, and it's why the Next.js path breaks when using `@rn-primitives`.
-
-The breakthrough came from re-reading the Uniwind docs with fresh eyes: Uniwind also ships a **Vite plugin**. Since Astro uses Vite under the hood, switching to Astro + Vite resolved almost everything instantly. One last snag — custom CSS variables caused `lightningcss` to throw cryptic parsing errors — was cleared by pinning the `lightningcss` version (see Monorepo Support below). Then it all clicked. ✅
-
-The setup sections below document exactly what that working configuration looks like.
+The fix came from switching bundlers entirely. Uniwind ships a Vite plugin, and Astro uses Vite under the hood — that combination resolved the styling issues cleanly. The setup sections below are based on that working configuration.
 
 ---
 

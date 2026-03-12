@@ -186,7 +186,7 @@ The setup sections below document exactly what that working configuration looks 
 
 ---
 
-## Adding Tailwind
+## 🎨 Adding Tailwind
 
 After rendering, let's add Tailwind support.
 
@@ -362,13 +362,13 @@ After rendering, let's add Tailwind support.
 
 ---
 
-## Why Uniwind?
+## 🤔 Why Uniwind?
 
 I tried NativeWind first, but NativeWind's Tailwind v4 support is still in early preview and styles simply don't render reliably. Uniwind solved that — it provides a working Vite plugin and a Webpack plugin (with caveats), and Tailwind classes apply correctly when the setup is right.
 
 ---
 
-## Monorepo Support
+## 🗂️ Monorepo Support
 
 If you're working in a monorepo, you'll need two additional tweaks.
 
@@ -396,7 +396,7 @@ Add a `@source` directive pointing to your shared packages so Tailwind scans the
 
 ---
 
-## Known Issues
+## ⚠️ Known Issues
 
 Since I'm using `react-native-reusables`, which under the hood uses `@rn-primitives`, the Next.js config with the Uniwind community plugin throws `exports not found` errors — the same error detailed in the Background section above. If you're using a different UI library that doesn't rely on `@rn-primitives`, you may not hit this. For now, my project runs on Astro where everything works smoothly.
 
@@ -404,7 +404,7 @@ I'm still exploring the Uniwind + Next.js integration and will update this secti
 
 ---
 
-## 🔧 A More Complete Component Example
+## 🧩 A More Complete Component Example
 
 The setup tabs show the minimal case — a `Text` component with a class. Here's what a real, composed universal component looks like. This exact file renders on iOS, Android, *and* the web without modification:
 

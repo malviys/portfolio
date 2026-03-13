@@ -147,6 +147,11 @@ const getMarkdownComponents = (theme: string | undefined): any => ({
       <img className="w-full h-auto object-cover object-center m-0" alt={props.alt || ""} {...props} />
     </span>
   ),
+  link: ({ node, ...props }: any) => (
+    <Link className="underline" {...props}>
+      {props.children}
+    </Link>
+  ),
 });
 
 export function BlogPostContent({ post }: { post: any }) {

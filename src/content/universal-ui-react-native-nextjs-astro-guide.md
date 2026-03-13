@@ -426,7 +426,7 @@ For now, the Astro path is the one that works end-to-end. Follow the setup tabs 
 
 ## 🔬 Final Verdict & What's Next
 
-The POC is live — see it here: **[astor-expo.saurabhmalvia997.workers.dev](https://astor-expo.saurabhmalvia997.workers.dev/)**
+The POC is live — see it here: **<a href="https://astor-expo.saurabhmalvia997.workers.dev/" target="_blank">AstroExpo</a>**
 
 The Astro + Vite path works well enough to build on. But the Next.js story is unfinished, and that matters — most React Native Web projects are on Webpack, and they deserve a clean path too.
 I'm still deep in the Webpack side of this: understanding how module resolution, alias chains, and plugin composition interact, and whether there's a way to give NativeWind and Uniwind proper first-class support without the workarounds. It's unsolved for now, but that's where the research is headed.

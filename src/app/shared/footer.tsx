@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail, Instagram } from "lucide-react";
 
 const socials = [
   {
@@ -16,6 +16,11 @@ const socials = [
     label: "Email",
     href: "mailto:saurabhmalvia997@gmail.com?subject=Connection Request",
     icon: Mail,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/ma1viys",
+    icon: Instagram,
   },
 ] as const;
 

@@ -4,8 +4,24 @@ import { LearningCard } from "@/components/ui/learning-card";
 import { getBlogPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
-  title: "Learnings | Sourabh Malviya",
-  description: "Thoughts, notes, and lessons learned while building products and exploring new technologies.",
+  title: "Learnings",
+  description:
+    "Thoughts, notes, and lessons learned while building products and exploring new technologies.",
+  alternates: { canonical: "https://malviys.com/blog" },
+  openGraph: {
+    type: "website",
+    url: "https://malviys.com/blog",
+    title: "Learnings | Sourabh Malviya",
+    description:
+      "Thoughts, notes, and lessons learned while building products and exploring new technologies.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Learnings | Sourabh Malviya",
+    description:
+      "Thoughts, notes, and lessons learned while building products and exploring new technologies.",
+    creator: "@malviys",
+  },
 };
 
 export default async function Blog() {

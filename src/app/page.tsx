@@ -1,10 +1,6 @@
-"use client";
-
 import DotGrid from "@/components/ui/dot-grid";
 import { ProjectCard } from "@/components/ui/project-card";
-import { useTypewriter } from "@/hooks/typewriter";
-
-const roles = ["Sr. Software Engineer", "Full Stack Developer", "React Native", "TypeScript", "Node.JS"] as const;
+import { TypewriterRole } from "@/components/ui/typewriter-role";
 
 const projects = [
   {
@@ -34,8 +30,6 @@ const projects = [
 ];
 
 export default function Home() {
-  const role = useTypewriter(roles, "Sr. Software Engineer");
-
   return (
     <main className="relative">
       <div className="absolute top-0 left-0 w-full h-full">
@@ -61,8 +55,7 @@ export default function Home() {
             Sourabh Malviya
           </h1>
           <p className="animate-fade-in-up delay-100 mt-4 text-xl font-bold text-gradient sm:text-2xl md:text-3xl lg:text-4xl">
-            {role}
-            <span className="animate-ping text-primary">.</span>
+            <TypewriterRole />
           </p>
           <p className="animate-fade-in-up delay-200 mt-6 max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-base">
             Building products that people love — from mobile apps to scalable platforms.
@@ -87,3 +80,4 @@ export default function Home() {
     </main>
   );
 }
+

@@ -4,9 +4,9 @@ const robots = (): MetadataRoute.Robots => ({
   rules: {
     userAgent: "*",
     allow: "/",
-    disallow: "/private/",
   },
-  sitemap: "https://www.malviys.com/sitemap.xml",
+  sitemap: "https://malviys.com/sitemap.xml",
+  host: "https://malviys.com",
 });
 
 export default robots;

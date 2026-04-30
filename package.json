@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "type-check": "tsc --noEmit",
+    "blurhash:generate": "bun run scripts/generate-blurhash.ts",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -48,10 +49,12 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "blurhash": "^2.0.5",
     "eslint": "^10.0.3",
     "eslint-config-next": "^16.1.6",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
+    "jimp": "^1.6.1",
     "lint-staged": "^16.3.3",
     "postcss": "^8.5.8",
     "tailwindcss": "^3.4.19",

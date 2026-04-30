@@ -42,6 +42,7 @@ export interface DotGridProps {
   maxSpeed?: number;
   resistance?: number;
   returnDuration?: number;
+  idleTimeoutMs?: number;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -73,6 +74,7 @@ const DotGrid: React.FC<DotGridProps> = ({
   maxSpeed = 5000,
   resistance = 750,
   returnDuration = 1.5,
+  idleTimeoutMs = 2500,
   className = "",
   style,
 }) => {
@@ -108,6 +110,9 @@ const DotGrid: React.FC<DotGridProps> = ({
     lastX: 0,
     lastY: 0,
   });
+  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const autoRafRef = useRef<number | null>(null);
+  const autoStartTimeRef = useRef(0);
 
   const baseRgb = useMemo(() => hexToRgb(currentBaseColor), [currentBaseColor]);
   const activeRgb = useMemo(() => hexToRgb(currentActiveColor), [currentActiveColor]);
@@ -222,12 +227,18 @@ const DotGrid: React.FC<DotGridProps> = ({
   }, [buildGrid]);
 
   useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      const now = performance.now();
+    const applyPointerUpdate = (clientX: number, clientY: number, now: number) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const rect = canvas.getBoundingClientRect();
       const pr = pointerRef.current;
-      const dt = pr.lastTime ? now - pr.lastTime : 16;
-      const dx = e.clientX - pr.lastX;
-      const dy = e.clientY - pr.lastY;
+      const dt = pr.lastTime ? Math.max(1, now - pr.lastTime) : 16;
+      const localX = clientX - rect.left;
+      const localY = clientY - rect.top;
+      const dx = localX - pr.lastX;
+      const dy = localY - pr.lastY;
+
       let vx = (dx / dt) * 1000;
       let vy = (dy / dt) * 1000;
       let speed = Math.hypot(vx, vy);
@@ -237,16 +248,15 @@ const DotGrid: React.FC<DotGridProps> = ({
         vy *= scale;
         speed = maxSpeed;
       }
+
       pr.lastTime = now;
-      pr.lastX = e.clientX;
-      pr.lastY = e.clientY;
+      pr.lastX = localX;
+      pr.lastY = localY;
       pr.vx = vx;
       pr.vy = vy;
       pr.speed = speed;
-
-      const rect = canvasRef.current!.getBoundingClientRect();
-      pr.x = e.clientX - rect.left;
-      pr.y = e.clientY - rect.top;
+      pr.x = localX;
+      pr.y = localY;
 
       for (const dot of dotsRef.current) {
         const dist = Math.hypot(dot.cx - pr.x, dot.cy - pr.y);
@@ -271,8 +281,53 @@ const DotGrid: React.FC<DotGridProps> = ({
       }
     };
 
+    const stopAutoMotion = () => {
+      if (autoRafRef.current !== null) {
+        cancelAnimationFrame(autoRafRef.current);
+        autoRafRef.current = null;
+      }
+    };
+
+    const runAutoMotion = () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const t = (performance.now() - autoStartTimeRef.current) / 1000;
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const radiusX = rect.width * 0.25;
+      const radiusY = rect.height * 0.18;
+
+      const clientX = centerX + Math.cos(t * 1.1) * radiusX;
+      const clientY = centerY + Math.sin(t * 1.7) * radiusY + Math.cos(t * 0.45) * 20;
+
+      applyPointerUpdate(clientX, clientY, performance.now());
+      autoRafRef.current = requestAnimationFrame(runAutoMotion);
+    };
+
+    const startAutoMotion = () => {
+      if (autoRafRef.current !== null) return;
+      autoStartTimeRef.current = performance.now();
+      runAutoMotion();
+    };
+
+    const resetIdleTimer = () => {
+      stopAutoMotion();
+      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+      idleTimerRef.current = setTimeout(startAutoMotion, idleTimeoutMs);
+    };
+
+    const onMove = (e: MouseEvent) => {
+      resetIdleTimer();
+      applyPointerUpdate(e.clientX, e.clientY, performance.now());
+    };
+
     const onClick = (e: MouseEvent) => {
-      const rect = canvasRef.current!.getBoundingClientRect();
+      resetIdleTimer();
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
       const cx = e.clientX - rect.left;
       const cy = e.clientY - rect.top;
       for (const dot of dotsRef.current) {
@@ -300,14 +355,27 @@ const DotGrid: React.FC<DotGridProps> = ({
     };
 
     const throttledMove = throttle(onMove, 50);
+    const onUserActivity = () => resetIdleTimer();
+
+    resetIdleTimer();
     window.addEventListener("mousemove", throttledMove, { passive: true });
     window.addEventListener("click", onClick);
+    window.addEventListener("touchstart", onUserActivity, { passive: true });
+    window.addEventListener("pointerdown", onUserActivity, { passive: true });
+    window.addEventListener("keydown", onUserActivity);
+    window.addEventListener("scroll", onUserActivity, { passive: true });
 
     return () => {
+      stopAutoMotion();
+      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
       window.removeEventListener("mousemove", throttledMove);
       window.removeEventListener("click", onClick);
+      window.removeEventListener("touchstart", onUserActivity);
+      window.removeEventListener("pointerdown", onUserActivity);
+      window.removeEventListener("keydown", onUserActivity);
+      window.removeEventListener("scroll", onUserActivity);
     };
-  }, [maxSpeed, speedTrigger, proximity, resistance, returnDuration, shockRadius, shockStrength]);
+  }, [idleTimeoutMs, maxSpeed, speedTrigger, proximity, resistance, returnDuration, shockRadius, shockStrength]);
 
   return (
     <section className={`p-4 flex items-center justify-center h-full w-full relative ${className}`} style={style}>

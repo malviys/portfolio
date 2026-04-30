@@ -27,6 +27,14 @@ const projects = [
     techStack: [],
     status: "development" as const,
   },
+  {
+    title: "LYD",
+    description:
+      "An outfit generator and fashion stylist app that scans closet items, generates outfit suggestions, and creates color palettes from user images.",
+    techStack: ["Expo", "Elysia", "Gemini Gen API"],
+    status: "development" as const,
+    href: "/project/lyd",
+  },
 ];
 
 export default function Home() {
@@ -80,4 +88,3 @@ export default function Home() {
     </main>
   );
 }
-

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowDownToLine, ArrowLeft, Apple, Smartphone } from "lucide-react";
+import { blurHashToDataURL } from "@/lib/blurhash";
 
 const keyFeatures = [
   "Scan and save closet items using the camera",
@@ -17,11 +18,33 @@ const metadataItems = [
   { label: "AI", value: "Gemini Gen API" },
 ];
 
+const appIconImage = {
+  src: "/images/lyd/app-icon.png",
+  alt: "LYD app icon",
+  blurHash: "U77nRRof00oft7ayWBof00WB~qWBM{oft7WB",
+};
+
 const previewImages = [
-  { src: "/images/lyd/preview-4.png", alt: "LYD AI-generated looks screen" },
-  { src: "/images/lyd/preview-3.png", alt: "LYD personalized style inspiration screen" },
-  { src: "/images/lyd/preview-1.png", alt: "LYD generation progress screen" },
-  { src: "/images/lyd/preview-2.png", alt: "LYD closet item selection screen" },
+  {
+    src: "/images/lyd/preview-4.png",
+    alt: "LYD AI-generated looks screen",
+    blurHash: "UoNAhvn%xuxuWARjt7of~qoLWBWBxus:azfk",
+  },
+  {
+    src: "/images/lyd/preview-3.png",
+    alt: "LYD personalized style inspiration screen",
+    blurHash: "U7P%Fb_3?G_4~pIURj?H~q%1-;Mx%MM}_3IU",
+  },
+  {
+    src: "/images/lyd/preview-1.png",
+    alt: "LYD generation progress screen",
+    blurHash: "U9Ryg4%M~q?aR+of?Hj[j]t7t7ofadRjt7t7",
+  },
+  {
+    src: "/images/lyd/preview-2.png",
+    alt: "LYD closet item selection screen",
+    blurHash: "UYN0|_Rk%MWBRkayj[ay~XoffioftPoLt7WC",
+  },
 ];
 
 export const metadata: Metadata = {
@@ -46,7 +69,15 @@ export default function LydProjectPage() {
       <section className="rounded-3xl border border-border/60 bg-card/70 p-6 shadow-sm backdrop-blur-xl sm:p-8">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-center">
           <div className="h-24 w-24 overflow-hidden rounded-[1.6rem] border border-border/60 shadow-lg shadow-black/20">
-            <Image src="/images/lyd/app-icon.png" alt="LYD app icon" width={1024} height={1024} className="h-full w-full object-cover" />
+            <Image
+              src={appIconImage.src}
+              alt={appIconImage.alt}
+              width={1024}
+              height={1024}
+              className="h-full w-full object-cover"
+              placeholder="blur"
+              blurDataURL={blurHashToDataURL(appIconImage.blurHash)}
+            />
           </div>
           <div className="flex-1">
             <p className="text-sm font-semibold uppercase tracking-widest text-primary">Fashion Assistant</p>
@@ -112,6 +143,8 @@ export default function LydProjectPage() {
                 height={2796}
                 className="h-64 w-full object-cover sm:h-72"
                 sizes="(max-width: 640px) 128px, 144px"
+                placeholder="blur"
+                blurDataURL={blurHashToDataURL(image.blurHash)}
               />
             </div>
           ))}

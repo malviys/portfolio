@@ -26,6 +26,23 @@ interface Dot {
   _inertiaApplied: boolean;
 }
 
+interface AutoMotionState {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  targetX: number;
+  targetY: number;
+  lastTime: number;
+  nextTargetAt: number;
+  warmupUntil: number;
+  cols: number;
+  rows: number;
+  visits: number[];
+  driftPhaseX: number;
+  driftPhaseY: number;
+}
+
 export interface DotGridProps {
   dotSize?: number;
   gap?: number;
@@ -112,7 +129,7 @@ const DotGrid: React.FC<DotGridProps> = ({
   });
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const autoRafRef = useRef<number | null>(null);
-  const autoStartTimeRef = useRef(0);
+  const autoMotionRef = useRef<AutoMotionState | null>(null);
 
   const baseRgb = useMemo(() => hexToRgb(currentBaseColor), [currentBaseColor]);
   const activeRgb = useMemo(() => hexToRgb(currentActiveColor), [currentActiveColor]);
@@ -288,27 +305,182 @@ const DotGrid: React.FC<DotGridProps> = ({
       }
     };
 
+    const getVisitIndex = (col: number, row: number, cols: number) => row * cols + col;
+
+    const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+
+    const ensureAutoState = (rect: DOMRect) => {
+      const cellSize = Math.max(100, Math.min(180, proximity * 0.9));
+      const cols = Math.max(2, Math.floor(rect.width / cellSize));
+      const rows = Math.max(2, Math.floor(rect.height / cellSize));
+      const now = performance.now();
+
+      if (!autoMotionRef.current) {
+        autoMotionRef.current = {
+          x: rect.width * 0.5,
+          y: rect.height * 0.5,
+          vx: 0,
+          vy: 0,
+          targetX: rect.width * 0.5,
+          targetY: rect.height * 0.5,
+          lastTime: now,
+          nextTargetAt: now,
+          warmupUntil: now,
+          cols,
+          rows,
+          visits: new Array(cols * rows).fill(0),
+          driftPhaseX: Math.random() * Math.PI * 2,
+          driftPhaseY: Math.random() * Math.PI * 2,
+        };
+        return autoMotionRef.current;
+      }
+
+      if (autoMotionRef.current.cols !== cols || autoMotionRef.current.rows !== rows) {
+        autoMotionRef.current.cols = cols;
+        autoMotionRef.current.rows = rows;
+        autoMotionRef.current.visits = new Array(cols * rows).fill(0);
+      }
+
+      return autoMotionRef.current;
+    };
+
+    const chooseNextTarget = (state: AutoMotionState, rect: DOMRect, now: number) => {
+      let minVisit = Number.POSITIVE_INFINITY;
+      for (const visit of state.visits) {
+        if (visit < minVisit) minVisit = visit;
+      }
+
+      const candidateThreshold = minVisit + 1;
+      const candidates: Array<{ x: number; y: number; dist: number; visit: number }> = [];
+      for (let row = 0; row < state.rows; row++) {
+        for (let col = 0; col < state.cols; col++) {
+          const idx = getVisitIndex(col, row, state.cols);
+          const visit = state.visits[idx];
+          if (visit > candidateThreshold) continue;
+
+          const cellW = rect.width / state.cols;
+          const cellH = rect.height / state.rows;
+          const x = col * cellW + cellW * (0.2 + Math.random() * 0.6);
+          const y = row * cellH + cellH * (0.2 + Math.random() * 0.6);
+          const dist = Math.hypot(x - state.x, y - state.y);
+          candidates.push({ x, y, dist, visit });
+        }
+      }
+
+      if (candidates.length === 0) return;
+
+      candidates.sort((a, b) => {
+        if (a.visit !== b.visit) return a.visit - b.visit;
+        return b.dist - a.dist;
+      });
+
+      const topN = Math.min(6, candidates.length);
+      const pick = candidates[Math.floor(Math.random() * topN)];
+      state.targetX = pick.x;
+      state.targetY = pick.y;
+      state.nextTargetAt = now + 900 + Math.random() * 1300;
+    };
+
     const runAutoMotion = () => {
       const canvas = canvasRef.current;
       if (!canvas) return;
 
       const rect = canvas.getBoundingClientRect();
-      const t = (performance.now() - autoStartTimeRef.current) / 1000;
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const radiusX = rect.width * 0.25;
-      const radiusY = rect.height * 0.18;
+      const now = performance.now();
+      const state = ensureAutoState(rect);
+      const dt = clamp((now - state.lastTime) / 1000, 0.001, 0.05);
+      state.lastTime = now;
 
-      const clientX = centerX + Math.cos(t * 1.1) * radiusX;
-      const clientY = centerY + Math.sin(t * 1.7) * radiusY + Math.cos(t * 0.45) * 20;
+      const cellW = rect.width / state.cols;
+      const cellH = rect.height / state.rows;
+      const col = clamp(Math.floor(state.x / cellW), 0, state.cols - 1);
+      const row = clamp(Math.floor(state.y / cellH), 0, state.rows - 1);
+      state.visits[getVisitIndex(col, row, state.cols)] += 1;
 
-      applyPointerUpdate(clientX, clientY, performance.now());
+      const distToTarget = Math.hypot(state.targetX - state.x, state.targetY - state.y);
+      if (now >= state.warmupUntil && (distToTarget < 30 || now >= state.nextTargetAt)) {
+        chooseNextTarget(state, rect, now);
+      }
+
+      const toTargetX = state.targetX - state.x;
+      const toTargetY = state.targetY - state.y;
+      const targetDist = Math.max(1, Math.hypot(toTargetX, toTargetY));
+
+      let desiredSpeed = clamp(170 + targetDist * 0.55, 120, 420);
+      if (targetDist < 180) {
+        desiredSpeed *= 0.35 + (targetDist / 180) * 0.65;
+      }
+
+      const desiredVx = (toTargetX / targetDist) * desiredSpeed;
+      const desiredVy = (toTargetY / targetDist) * desiredSpeed;
+
+      const driftX = Math.sin(now * 0.0011 + state.driftPhaseX) * 26 + Math.sin(now * 0.00037) * 10;
+      const driftY = Math.cos(now * 0.0013 + state.driftPhaseY) * 24 + Math.cos(now * 0.00041) * 10;
+
+      const accel = 3.6;
+      state.vx += (desiredVx - state.vx) * accel * dt + driftX * dt;
+      state.vy += (desiredVy - state.vy) * accel * dt + driftY * dt;
+
+      const speed = Math.hypot(state.vx, state.vy);
+      const maxAutoSpeed = 460;
+      if (speed > maxAutoSpeed) {
+        const scale = maxAutoSpeed / speed;
+        state.vx *= scale;
+        state.vy *= scale;
+      }
+
+      state.x += state.vx * dt;
+      state.y += state.vy * dt;
+
+      const margin = 8;
+      if (state.x < margin) {
+        state.x = margin;
+        state.vx = Math.abs(state.vx) * 0.4;
+        state.nextTargetAt = 0;
+      } else if (state.x > rect.width - margin) {
+        state.x = rect.width - margin;
+        state.vx = -Math.abs(state.vx) * 0.4;
+        state.nextTargetAt = 0;
+      }
+      if (state.y < margin) {
+        state.y = margin;
+        state.vy = Math.abs(state.vy) * 0.4;
+        state.nextTargetAt = 0;
+      } else if (state.y > rect.height - margin) {
+        state.y = rect.height - margin;
+        state.vy = -Math.abs(state.vy) * 0.4;
+        state.nextTargetAt = 0;
+      }
+
+      applyPointerUpdate(rect.left + state.x, rect.top + state.y, now);
       autoRafRef.current = requestAnimationFrame(runAutoMotion);
     };
 
     const startAutoMotion = () => {
       if (autoRafRef.current !== null) return;
-      autoStartTimeRef.current = performance.now();
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const rect = canvas.getBoundingClientRect();
+        const now = performance.now();
+        const state = ensureAutoState(rect);
+        state.x = clamp(pointerRef.current.x || rect.width * 0.5, 0, rect.width);
+        state.y = clamp(pointerRef.current.y || rect.height * 0.5, 0, rect.height);
+
+        // Launch autoplay with a fully random initial direction.
+        const launchAngle = Math.random() * Math.PI * 2;
+        const launchSpeed = 130 + Math.random() * 180;
+        const launchVx = Math.cos(launchAngle) * launchSpeed;
+        const launchVy = Math.sin(launchAngle) * launchSpeed;
+        state.vx = launchVx;
+        state.vy = launchVy;
+
+        const launchDistance = 180 + Math.random() * 180;
+        state.targetX = clamp(state.x + Math.cos(launchAngle) * launchDistance, 8, rect.width - 8);
+        state.targetY = clamp(state.y + Math.sin(launchAngle) * launchDistance, 8, rect.height - 8);
+        state.lastTime = now;
+        state.warmupUntil = now + 800;
+        state.nextTargetAt = state.warmupUntil;
+      }
       runAutoMotion();
     };
 

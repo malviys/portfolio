@@ -22,7 +22,7 @@ const socials = [
   },
   {
     label: "Instagram",
-    href: "https://www.instagram.com/ma1viys",
+    href: "https://www.instagram.com/ma1viys?igsh=MTBuenViejl5MmxsMA==",
     icon: Instagram,
     title: "Instagram",
   },

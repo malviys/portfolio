@@ -26,6 +26,11 @@ export default function Header() {
     { href: "/blog", label: "Learnings" },
     { href: "https://www.github.com/malviys", label: "GitHub", external: true },
     { href: "https://www.linkedin.com/in/malviys", label: "LinkedIn", external: true },
+    {
+      href: "https://www.instagram.com/ma1viys?igsh=MTBuenViejl5MmxsMA==",
+      label: "Instagram",
+      external: true,
+    },
   ];
 
   return (

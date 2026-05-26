@@ -84,7 +84,7 @@ const jsonLd = {
   sameAs: [
     "https://github.com/malviys",
     "https://www.linkedin.com/in/malviys",
-    "https://www.instagram.com/ma1viys",
+    "https://www.instagram.com/ma1viys?igsh=MTBuenViejl5MmxsMA==",
   ],
   email: "saurabhmalvia997@gmail.com",
 };

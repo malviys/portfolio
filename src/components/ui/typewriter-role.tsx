@@ -4,10 +4,8 @@ import { useTypewriter } from "@/hooks/typewriter";
 
 const roles = [
   "Sr. Software Engineer",
-  "Full Stack Developer",
-  "React Native",
-  "TypeScript",
-  "Node.JS",
+  "Full-Stack Product Engineer",
+  "Backend to Frontend",
 ] as const;
 
 export function TypewriterRole() {

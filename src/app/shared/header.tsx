@@ -22,7 +22,8 @@ export default function Header() {
   const closeMenu = () => setIsMobileMenuOpen(false);
 
   const navLinks = [
-    { href: "/#projects", label: "Projects" },
+    { href: "/about", label: "About" },
+    { href: "/project", label: "Projects" },
     { href: "/blog", label: "Learnings" },
     { href: "https://www.github.com/malviys", label: "GitHub", external: true },
     { href: "https://www.linkedin.com/in/malviys", label: "LinkedIn", external: true },

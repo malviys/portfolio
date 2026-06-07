@@ -16,7 +16,7 @@ const socials = [
   },
   {
     label: "Email",
-    href: "mailto:saurabhmalvia997@gmail.com?subject=Connection Request",
+    href: "mailto:saurabhmalvia997+portfolio@gmail.com?subject=Connection Request",
     icon: Mail,
     title: "Email",
   },

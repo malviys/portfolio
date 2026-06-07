@@ -21,14 +21,27 @@ export const metadata: Metadata = {
     template: "%s | Sourabh Malviya",
   },
   description:
-    "Portfolio of Sourabh Malviya — Senior Software Engineer building products from mobile apps to scalable platforms.",
+    "Portfolio of Sourabh Malviya, a Senior Software Engineer building scalable backend-to-frontend products with payments, AI features, and clear documentation.",
   keywords: [
     "Sourabh Malviya",
     "Software Engineer",
     "React Native",
     "Full Stack Developer",
     "TypeScript",
+    "Golang",
+    "Java",
+    "Python",
+    "React.js",
+    "Next.js",
+    "Spring",
+    "Spring Boot",
     "Node.js",
+    "Bun",
+    "Postgres",
+    "Redis",
+    "Kafka",
+    "Stripe",
+    "AI features",
     "iOS",
     "Android",
   ],
@@ -41,7 +54,7 @@ export const metadata: Metadata = {
     siteName: "Sourabh Malviya",
     title: "Sourabh Malviya — Software Engineer",
     description:
-      "Building products that people love — from mobile apps to scalable platforms.",
+      "Building scalable backend-to-frontend products with payments, AI features, and clear documentation.",
     images: [
       {
         url: "/og-image.png",
@@ -55,7 +68,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sourabh Malviya — Software Engineer",
     description:
-      "Building products that people love — from mobile apps to scalable platforms.",
+      "Building scalable backend-to-frontend products with payments, AI features, and clear documentation.",
     images: ["/og-image.png"],
     creator: "@malviys",
   },
@@ -86,7 +99,7 @@ const jsonLd = {
     "https://www.linkedin.com/in/malviys",
     "https://www.instagram.com/ma1viys?igsh=MTBuenViejl5MmxsMA==",
   ],
-  email: "saurabhmalvia997@gmail.com",
+  email: "saurabhmalvia997+portfolio@gmail.com",
 };
 
 export default function RootLayout({
@@ -116,4 +129,3 @@ export default function RootLayout({
     </html>
   );
 }
-

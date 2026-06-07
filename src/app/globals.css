@@ -47,6 +47,9 @@
     --input: 240 4% 16%;
     --ring: 220 90% 56%;
   }
+  .theme {
+    --animate-line-shadow: line-shadow 15s linear infinite;
+  }
 }
 
 @layer base {
@@ -109,6 +112,15 @@
   }
 }
 
+@keyframes line-shadow {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% -100%;
+  }
+}
+
 @layer utilities {
   .animate-fade-in-up {
     animation: fade-in-up 0.7s ease-out both;
@@ -126,6 +138,9 @@
   .animate-pulse-glow {
     animation: pulse-glow 3s ease-in-out infinite;
   }
+  .animate-line-shadow {
+    animation: line-shadow 15s linear infinite;
+  }
 
   .text-gradient {
     @apply bg-clip-text text-transparent;
@@ -135,7 +150,7 @@
   }
 
   .glass {
-    @apply bg-card/60 backdrop-blur-xl border border-border/50;
+    @apply border border-border/50 bg-card/60 backdrop-blur-xl shadow-sm shadow-black/5;
   }
 
   .delay-100 {
@@ -149,5 +164,16 @@
   }
   .delay-400 {
     animation-delay: 0.4s;
+  }
+}
+
+@theme inline {
+  @keyframes line-shadow {
+  0% {
+    background-position: 0 0;
+    }
+  100% {
+    background-position: 100% -100%;
+    }
   }
 }

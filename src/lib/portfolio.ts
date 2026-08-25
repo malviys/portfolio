@@ -116,7 +116,7 @@ export const projects: PortfolioProject[] = [
       "A universal component library bringing shadcn/ui-style patterns to React Native, NativeWind, iOS, Android, and web.",
     techStack: ["React Native", "NativeWind", "TypeScript", "Radix Primitives"],
     status: "live",
-    href: "https://moe-ui.saurabhmalvia997.workers.dev/",
+    href: "https://www.moe-ui.com/",
     focus: "Cross-platform design system",
     outcomes: [
       "Created a reusable UI foundation for product teams.",

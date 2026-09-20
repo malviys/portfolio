@@ -16,7 +16,11 @@ Think of it as a checkpoint: **do something before the call, let the call happen
 
 ## Where does it run?
 
+<figure style="max-width: 440px; margin: 2rem auto;">
+
 ![A successful call flows from ChatClient through the advisor's before hook, to the LLM through ChatModel, through the advisor's after hook, and back to the application.](/images/blog/spring-ai-advisor/request-response.svg)
+
+</figure>
 
 With `BaseAdvisor`, the two hooks are:
 
@@ -59,7 +63,11 @@ The same interception points can handle more than logging:
 
 The example project logs tool names. These are additional behaviors you could build.
 
+<figure style="max-width: 440px; margin: 2rem auto;">
+
 ![Start a timer and call the next advisor. On success, process the response; on failure, record the error. Both paths reach finally, where resources are released and timing is recorded, before returning the answer or propagating the error.](/images/blog/spring-ai-advisor/cleanup-lifecycle.svg)
+
+</figure>
 
 **Cleanup must happen even when the call fails.** An `after()` hook alone does not guarantee that. For synchronous calls, a custom `CallAdvisor` can wrap `chain.nextCall(request)` in `try` / `finally`.
 

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Blog() {
-  const learnings = await getBlogPosts();
+  const learnings = (await getBlogPosts()).filter((post) => !post.section);
 
   return (
     <main className="relative min-h-[85vh] py-20 sm:py-28">

@@ -11,6 +11,7 @@ export interface BlogPost {
   updatedAt?: string;
   slug: string;
   tags?: string[];
+  section?: string;
   content: string;
 }
 
@@ -37,6 +38,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
         publishedAt: matterResult.data.publishedAt,
         updatedAt: matterResult.data.updatedAt,
         tags: matterResult.data.tags || [],
+        section: matterResult.data.section,
         content: matterResult.content,
         // include any other meta from gray-matter
       } as BlogPost;
@@ -67,6 +69,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | undefined> {
     publishedAt: matterResult.data.publishedAt,
     updatedAt: matterResult.data.updatedAt,
     tags: matterResult.data.tags || [],
+    section: matterResult.data.section,
     content: matterResult.content,
   } as BlogPost;
 }

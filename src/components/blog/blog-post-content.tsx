@@ -11,6 +11,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark, materialLight } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
+import type { BlogPost } from "@/lib/blog";
 
 const CopyButton = ({ text }: { text: string }) => {
   const [isCopied, setIsCopied] = useState(false);
@@ -154,7 +155,7 @@ const getMarkdownComponents = (theme: string | undefined): any => ({
   ),
 });
 
-export function BlogPostContent({ post }: { post: any }) {
+export function BlogPostContent({ post, section }: { post: BlogPost; section?: Pick<BlogPost, "title" | "slug"> }) {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -171,11 +172,11 @@ export function BlogPostContent({ post }: { post: any }) {
 
       <article className="container mx-auto max-w-3xl px-6">
         <Link
-          href="/blog"
+          href={section ? `/blog/${section.slug}` : "/blog"}
           className="group mb-8 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-          Back to Learnings
+          Back to {section ? section.title : "Learnings"}
         </Link>
 
         <header className="mb-12">

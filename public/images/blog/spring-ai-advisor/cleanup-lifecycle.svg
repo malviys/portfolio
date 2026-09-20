@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="636" viewBox="0 0 560 636" role="img" aria-labelledby="title desc">
+  <title id="title">Cleanup on both success and failure</title>
+  <desc id="desc">Start timing, then call the next advisor. A successful call leads to response processing; a failed call leads to error recording. Both paths go through finally to release resources and record duration, then return the answer or propagate the error.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#64748b"/></marker>
+  </defs>
+  <rect width="560" height="636" rx="20" fill="#f8fafc"/>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <text x="280" y="40" fill="#475569" font-size="18" font-weight="700" letter-spacing="2">CLEANUP ON EVERY EXIT</text>
+    <g fill="none" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow)">
+      <path d="M280 126V160"/><path d="M280 232V255H148V298"/><path d="M280 255H412V298"/>
+      <path d="M148 378V406H280V436"/><path d="M412 378V406H280" marker-end="none"/><path d="M280 532V570"/>
+    </g>
+    <rect x="48" y="66" width="464" height="60" rx="12" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="280" y="104" fill="#0f172a" font-size="24" font-weight="700">Start timer / prepare resources</text>
+    <rect x="48" y="160" width="464" height="72" rx="12" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="280" y="190" fill="#1e40af" font-size="24" font-weight="700">Call the next advisor</text>
+    <text x="280" y="216" fill="#1e40af" font-size="20">chain.nextCall(request)</text>
+    <text x="85" y="284" fill="#047857" font-size="20" font-weight="700">Success</text>
+    <text x="480" y="284" fill="#b45309" font-size="20" font-weight="700">Failure</text>
+    <rect x="32" y="298" width="232" height="80" rx="12" fill="#ecfdf5" stroke="#059669"/>
+    <text x="148" y="330" fill="#065f46" font-size="22" font-weight="700">Process response</text>
+    <text x="148" y="359" fill="#065f46" font-size="19">Record success / usage</text>
+    <rect x="296" y="298" width="232" height="80" rx="12" fill="#fffbeb" stroke="#d97706"/>
+    <text x="412" y="330" fill="#92400e" font-size="22" font-weight="700">Record failure</text>
+    <text x="412" y="359" fill="#92400e" font-size="19">Keep the error to throw</text>
+    <rect x="48" y="436" width="464" height="96" rx="12" fill="#ede9fe" stroke="#7c3aed"/>
+    <text x="280" y="468" fill="#5b21b6" font-size="24" font-weight="700">finally · always runs</text>
+    <text x="280" y="498" fill="#5b21b6" font-size="20">Release resources · record duration</text>
+    <text x="280" y="602" fill="#0f172a" font-size="22" font-weight="700">Return answer or propagate error</text>
+  </g>
+</svg>

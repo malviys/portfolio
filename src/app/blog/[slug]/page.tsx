@@ -58,5 +58,7 @@ export default async function BlogPost({ params }: Readonly<BlogPostProps>) {
     notFound();
   }
 
-  return <BlogPostContent post={post} />;
+  const section = post.section ? await getBlogPost(post.section) : undefined;
+
+  return <BlogPostContent post={post} section={section ? { title: section.title, slug: section.slug } : undefined} />;
 }

@@ -34,6 +34,17 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Sourabh Malviya", url: BASE_URL }],
   creator: "Sourabh Malviya",
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon.ico?v=avatar-18098653", sizes: "16x16 32x32 48x48" },
+      { url: "/favicon-16x16.png?v=avatar-18098653", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png?v=avatar-18098653", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png?v=avatar-18098653", sizes: "180x180", type: "image/png" },
+    ],
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -116,4 +127,3 @@ export default function RootLayout({
     </html>
   );
 }
-

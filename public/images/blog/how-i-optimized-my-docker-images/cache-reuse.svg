@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="730" viewBox="0 0 480 730" role="img" aria-labelledby="title desc">
+<title id="title">Docker cache reuse after a source-only edit</title>
+<desc id="desc">Copying source before installing dependencies rebuilds all three steps. Copying unchanged manifests first lets Docker reuse the manifest and install steps; only the source copy and build rerun. This assumes the base image and other cache inputs are unchanged and matching cache is available.</desc>
+<metadata>Original explanatory diagram for Sourabh Malviya's blog. Basis: https://docs.docker.com/build/cache/optimize/</metadata>
+<style>
+  :root { color: #0f172a; --muted: #475569; --panel: #f1f5f9; --line: #94a3b8; --blue: #075985; --blue-bg: #e0f2fe; --green: #166534; --green-bg: #dcfce7; --orange: #9a3412; --orange-bg: #ffedd5; }
+  @media (prefers-color-scheme: dark) {
+    :root { color: #f1f5f9; --muted: #cbd5e1; --panel: #182332; --line: #64748b; --blue: #7dd3fc; --blue-bg: #0c3446; --green: #86efac; --green-bg: #143522; --orange: #fdba74; --orange-bg: #462916; }
+  }
+  text { fill: currentColor; font-family: Arial, Helvetica, sans-serif; font-size: 22px; }
+  .title { font-size: 26px; font-weight: 700; }
+  .label { font-size: 20px; font-weight: 700; }
+  .small { font-size: 19px; }
+  .muted { fill: var(--muted); }
+  .blue { fill: var(--blue); }
+  .green { fill: var(--green); }
+  .orange { fill: var(--orange); }
+  .panel { fill: var(--panel); stroke: var(--line); }
+  .blue-panel { fill: var(--blue-bg); stroke: var(--blue); }
+  .green-panel { fill: var(--green-bg); stroke: var(--green); }
+  .orange-panel { fill: var(--orange-bg); stroke: var(--orange); }
+  .arrow { fill: none; stroke: var(--line); stroke-width: 2; marker-end: url(#arrow); }
+</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--line)"/></marker></defs>
+<text x="24" y="42" class="title">One source edit, different rebuilds</text>
+<text x="24" y="76" class="muted small">Manifests and base image unchanged</text>
+<text x="24" y="125" class="label">Source copied first</text>
+<rect x="24" y="145" width="432" height="48" rx="12" class="orange-panel"/>
+<text x="40" y="176">Copy all source</text>
+<text x="440" y="175" class="orange small" text-anchor="end">REBUILD</text>
+<rect x="24" y="205" width="432" height="48" rx="12" class="orange-panel"/>
+<text x="40" y="236">Install dependencies</text>
+<text x="440" y="235" class="orange small" text-anchor="end">REBUILD</text>
+<rect x="24" y="265" width="432" height="48" rx="12" class="orange-panel"/>
+<text x="40" y="296">Build app</text>
+<text x="440" y="295" class="orange small" text-anchor="end">REBUILD</text>
+<text x="24" y="376" class="label">Manifests copied first</text>
+<rect x="24" y="396" width="432" height="48" rx="12" class="green-panel"/>
+<text x="40" y="427">Copy manifests</text>
+<text x="440" y="426" class="green small" text-anchor="end">REUSE</text>
+<rect x="24" y="456" width="432" height="48" rx="12" class="green-panel"/>
+<text x="40" y="487">Install dependencies</text>
+<text x="440" y="486" class="green small" text-anchor="end">REUSE</text>
+<rect x="24" y="516" width="432" height="48" rx="12" class="orange-panel"/>
+<text x="40" y="547">Copy all source</text>
+<text x="440" y="546" class="orange small" text-anchor="end">REBUILD</text>
+<rect x="24" y="576" width="432" height="48" rx="12" class="orange-panel"/>
+<text x="40" y="607">Build app</text>
+<text x="440" y="606" class="orange small" text-anchor="end">REBUILD</text>
+<text x="24" y="674" class="muted small">Reuse assumes matching cached steps.</text>
+<text x="24" y="701" class="muted small">Read each build sequence top to bottom.</text>
+</svg>

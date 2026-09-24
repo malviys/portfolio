@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="706" viewBox="0 0 480 706" role="img" aria-labelledby="title desc">
+<title id="title">Build stages and runtime image boundary</title>
+<desc id="desc">Build stages hold source, build dependencies and tools. A separate runtime stage copies selected app output and required libraries and assets onto a runtime base. Build-only files remain in earlier stages unless explicitly copied.</desc>
+<metadata>Original explanatory diagram for Sourabh Malviya's blog. Basis: https://docs.docker.com/build/building/multi-stage/</metadata>
+<style>
+  :root { color: #0f172a; --muted: #475569; --panel: #f1f5f9; --line: #94a3b8; --blue: #075985; --blue-bg: #e0f2fe; --green: #166534; --green-bg: #dcfce7; --orange: #9a3412; --orange-bg: #ffedd5; }
+  @media (prefers-color-scheme: dark) {
+    :root { color: #f1f5f9; --muted: #cbd5e1; --panel: #182332; --line: #64748b; --blue: #7dd3fc; --blue-bg: #0c3446; --green: #86efac; --green-bg: #143522; --orange: #fdba74; --orange-bg: #462916; }
+  }
+  text { fill: currentColor; font-family: Arial, Helvetica, sans-serif; font-size: 22px; }
+  .title { font-size: 26px; font-weight: 700; }
+  .label { font-size: 20px; font-weight: 700; }
+  .small { font-size: 19px; }
+  .muted { fill: var(--muted); }
+  .blue { fill: var(--blue); }
+  .green { fill: var(--green); }
+  .orange { fill: var(--orange); }
+  .panel { fill: var(--panel); stroke: var(--line); }
+  .blue-panel { fill: var(--blue-bg); stroke: var(--blue); }
+  .green-panel { fill: var(--green-bg); stroke: var(--green); }
+  .orange-panel { fill: var(--orange-bg); stroke: var(--orange); }
+  .arrow { fill: none; stroke: var(--line); stroke-width: 2; marker-end: url(#arrow); }
+</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--line)"/></marker></defs>
+<text x="24" y="42" class="title">Choose what reaches production</text>
+<text x="24" y="77" class="muted small">A multi-stage build, simplified</text>
+<rect x="24" y="110" width="432" height="205" rx="12" class="panel"/>
+<text x="44" y="148" class="label">BUILD STAGES</text>
+<text x="44" y="187">Source + all build dependencies</text>
+<text x="44" y="222">Compiler, tests, build tools</text>
+<text x="44" y="267" class="blue">Produce the runnable app</text>
+<text x="44" y="295" class="muted small">Build-only files stay in these stages.</text>
+<path d="M240 315V404" class="arrow"/>
+<text x="256" y="352" class="label blue">COPY</text>
+<text x="256" y="378" class="small muted">Selected artifacts</text>
+<rect x="24" y="422" width="432" height="182" rx="12" class="green-panel"/>
+<text x="44" y="461" class="label green">RUNTIME STAGE</text>
+<text x="44" y="500">Runtime base + app output</text>
+<text x="44" y="537">Required libraries and assets</text>
+<text x="44" y="575" class="green small">Only what this app needs to run</text>
+<text x="24" y="650" class="muted small">Start the runner from a separate base.</text>
+<text x="24" y="679" class="muted small">Copying files decides what is included.</text>
+</svg>

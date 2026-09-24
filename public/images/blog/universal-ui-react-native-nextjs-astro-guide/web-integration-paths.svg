@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="802" viewBox="0 0 480 802" role="img" aria-labelledby="title desc">
+<title id="title">React Native components in Astro and Next.js</title>
+<desc id="desc">React Native Web maps supported shared primitives to browser DOM. The Astro path uses Vite and Uniwind with client-only previews and worked in the author’s proof of concept. The Next.js path uses Webpack and a community Uniwind plugin; the author’s component-library integration remains unresolved. These are separate configurations, not a universal compatibility guarantee.</desc>
+<metadata>Original explanatory diagram for Sourabh Malviya's blog. Basis: The setup and limitations documented in this post; https://docs.uniwind.dev/vite and https://github.com/a16n-dev/uniwind-plugin-next</metadata>
+<style>
+  :root { color: #0f172a; --muted: #475569; --panel: #f1f5f9; --line: #94a3b8; --blue: #075985; --blue-bg: #e0f2fe; --green: #166534; --green-bg: #dcfce7; --orange: #9a3412; --orange-bg: #ffedd5; }
+  @media (prefers-color-scheme: dark) {
+    :root { color: #f1f5f9; --muted: #cbd5e1; --panel: #182332; --line: #64748b; --blue: #7dd3fc; --blue-bg: #0c3446; --green: #86efac; --green-bg: #143522; --orange: #fdba74; --orange-bg: #462916; }
+  }
+  text { fill: currentColor; font-family: Arial, Helvetica, sans-serif; font-size: 22px; }
+  .title { font-size: 26px; font-weight: 700; }
+  .label { font-size: 20px; font-weight: 700; }
+  .small { font-size: 19px; }
+  .muted { fill: var(--muted); }
+  .blue { fill: var(--blue); }
+  .green { fill: var(--green); }
+  .orange { fill: var(--orange); }
+  .panel { fill: var(--panel); stroke: var(--line); }
+  .blue-panel { fill: var(--blue-bg); stroke: var(--blue); }
+  .green-panel { fill: var(--green-bg); stroke: var(--green); }
+  .orange-panel { fill: var(--orange-bg); stroke: var(--orange); }
+  .arrow { fill: none; stroke: var(--line); stroke-width: 2; marker-end: url(#arrow); }
+</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--line)"/></marker></defs>
+<text x="24" y="42" class="title">Shared UI, separate integrations</text>
+<rect x="24" y="80" width="432" height="90" rx="12" class="panel"/>
+<text x="44" y="116" class="label">Shared React Native components</text>
+<text x="44" y="149" class="muted">View · Text · Pressable</text>
+<path d="M240 170V202" class="arrow"/>
+<rect x="24" y="218" width="432" height="86" rx="12" class="blue-panel"/>
+<text x="44" y="253" class="label blue">React Native Web</text>
+<text x="44" y="285" class="small">Supported primitives → browser DOM</text>
+<path d="M240 304V333H28V436H65" class="arrow"/>
+<path d="M28 436V643H65" class="arrow"/>
+<rect x="80" y="356" width="376" height="159" rx="12" class="green-panel"/>
+<text x="100" y="393" class="label">Astro + Vite</text>
+<text x="100" y="425">Uniwind Vite integration</text>
+<text x="100" y="465" class="green label">Working proof of concept</text>
+<text x="100" y="496" class="small">Client-only component previews</text>
+<rect x="80" y="562" width="376" height="166" rx="12" class="orange-panel"/>
+<text x="100" y="600" class="label">Next.js + Webpack</text>
+<text x="100" y="632">Community Uniwind plugin</text>
+<text x="100" y="672" class="orange label">Integration still unresolved</text>
+<text x="100" y="705" class="small">For my component-library setup</text>
+<text x="24" y="773" class="muted small">Rendering and styling are separate checks.</text>
+</svg>

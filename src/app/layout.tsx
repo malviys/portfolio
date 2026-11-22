@@ -7,6 +7,8 @@ import Footer from "@/app/shared/footer";
 import Header from "@/app/shared/header";
 import ConfigProvider from "@/components/system/config-provider";
 import { ThemeProvider } from "@/components/system/theme-provider";
+import { UniiClientProvider } from "@/components/system/unii-provider";
+import { AIChatbot } from "@/components/ui/ai-chatbot";
 
 import "@/app/globals.css";
 
@@ -116,9 +118,12 @@ export default function RootLayout({
       <body className={`min-h-screen overflow-x-hidden ${inter.className}`}>
         <ConfigProvider>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-            <Header />
-            {children}
-            <Footer />
+            <UniiClientProvider>
+              <Header />
+              {children}
+              <Footer />
+              <AIChatbot />
+            </UniiClientProvider>
           </ThemeProvider>
         </ConfigProvider>
       </body>

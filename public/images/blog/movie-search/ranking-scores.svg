@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="800" viewBox="0 0 480 800" role="img" aria-labelledby="title desc">
+<title id="title">Movie search scores for space astronaut survival</title><desc id="desc">Top five calculated results for space astronaut survival. The Martian: 0.480384, 3 shared features, 13 total; Gravity: 0.462910, 3 shared features, 14 total; Interstellar: 0.420084, 3 shared features, 17 total; Alien: 0.308607, 2 shared features, 14 total; WALL-E: 0.308607, 2 shared features, 14 total. Scores use a 0 to 1 axis and are not probabilities. Ties retain catalog order. Source: local bundled movie-search JSON, September 28, 2026.</desc>
+<metadata>Original visual for Sourabh Malviya. Source: movie-search local Java implementation and bundled feature_embedding.json and movies_embedding.json; 2026-09-28. Values are calculated, not a captured API response.</metadata>
+<style>
+:root{color:#0f172a;--muted:#475569;--panel:#f1f5f9;--line:#94a3b8}
+@media(prefers-color-scheme:dark){:root{color:#f1f5f9;--muted:#cbd5e1;--panel:#182332;--line:#64748b}}
+text{fill:currentColor;font-family:Arial,Helvetica,sans-serif;font-size:22px}
+.title{font-size:27px;font-weight:700}.label{font-size:20px;font-weight:700}
+.small{font-size:20px}.muted{fill:var(--muted)}.panel{fill:var(--panel);stroke:var(--line)}
+.arrow{fill:none;stroke:currentColor;stroke-opacity:.5;stroke-width:2;marker-end:url(#arrow)}
+</style>
+<text x="24" y="42" class="title" >Same query, different scores</text>
+<text x="24" y="76" class="small muted" >Query: space astronaut survival</text>
+<text x="24" y="106" class="small muted" >Binary cosine similarity · 0–1 scale</text>
+<line x1="24" y1="133" x2="24" y2="593" stroke="currentColor" opacity="0.08"/>
+<text x="24" y="626" class="small muted" text-anchor="start">0</text>
+<line x1="132.0" y1="133" x2="132.0" y2="593" stroke="currentColor" opacity="0.08"/>
+<text x="132.0" y="626" class="small muted" text-anchor="middle">0.25</text>
+<line x1="240.0" y1="133" x2="240.0" y2="593" stroke="currentColor" opacity="0.08"/>
+<text x="240.0" y="626" class="small muted" text-anchor="middle">0.5</text>
+<line x1="348.0" y1="133" x2="348.0" y2="593" stroke="currentColor" opacity="0.08"/>
+<text x="348.0" y="626" class="small muted" text-anchor="middle">0.75</text>
+<line x1="456" y1="133" x2="456" y2="593" stroke="currentColor" opacity="0.08"/>
+<text x="456" y="626" class="small muted" text-anchor="end">1</text>
+<text x="24" y="156" class="label" >The Martian</text>
+<text x="456" y="156" class="small" text-anchor="end">0.480384</text>
+<rect x="24" y="169" width="207.526087" height="18" rx="3" fill="#f97316"/>
+<text x="24" y="214" class="small muted" >3 shared features · 13 total features</text>
+<text x="24" y="250" class="label" >Gravity</text>
+<text x="456" y="250" class="small" text-anchor="end">0.462910</text>
+<rect x="24" y="263" width="199.977142" height="18" rx="3" fill="#38bdf8"/>
+<text x="24" y="308" class="small muted" >3 shared features · 14 total features</text>
+<text x="24" y="344" class="label" >Interstellar</text>
+<text x="456" y="344" class="small" text-anchor="end">0.420084</text>
+<rect x="24" y="357" width="181.476299" height="18" rx="3" fill="#38bdf8"/>
+<text x="24" y="402" class="small muted" >3 shared features · 17 total features</text>
+<text x="24" y="438" class="label" >Alien</text>
+<text x="456" y="438" class="small" text-anchor="end">0.308607</text>
+<rect x="24" y="451" width="133.318094" height="18" rx="3" fill="#38bdf8"/>
+<text x="24" y="496" class="small muted" >2 shared features · 14 total features</text>
+<text x="24" y="532" class="label" >WALL-E</text>
+<text x="456" y="532" class="small" text-anchor="end">0.308607</text>
+<rect x="24" y="545" width="133.318094" height="18" rx="3" fill="#38bdf8"/>
+<text x="24" y="590" class="small muted" >2 shared features · 14 total features</text>
+<text x="24" y="668" class="small" >Equal overlap + fewer total features</text>
+<text x="24" y="696" class="small" >gives a higher score.</text>
+<text x="24" y="744" class="small muted" >Source: bundled movie-search JSON</text>
+<text x="24" y="773" class="small muted" >Calculated September 28, 2026</text>
+</svg>

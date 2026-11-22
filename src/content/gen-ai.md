@@ -3,7 +3,7 @@ title: "Gen AI"
 description: "My notes on generative AI concepts across languages, starting with Java and Spring AI, with room for examples in TypeScript, Python, and Go."
 createdAt: "2026-09-20"
 publishedAt: "2026-09-20"
-updatedAt: "2026-09-21"
+updatedAt: "2026-09-28"
 tags: ["Gen AI", "Spring AI", "Java"]
 ---
 
@@ -13,7 +13,7 @@ This series is where I'm working through those questions. I'm currently using Ja
 
 I'll connect each concept to code in my [gen-ai repository](https://github.com/malviys/gen-ai), explain the choices in the example, and separate what the results show from what still needs testing. You can follow the ideas even if you work in a different language.
 
-To run the current examples, you'll need basic Java and Spring Boot knowledge and a configured chat model. These chapters use Spring AI 2.0.1 and focus on application code; they don't cover provider credentials or the initial project setup. I'll note the stack and prerequisites for each chapter as the series grows.
+To run the current examples, you'll need basic Java and Spring Boot knowledge. The advisor and tool-calling chapters use Spring AI 2.0.1 and assume a configured chat model; they don't cover provider credentials or the initial project setup. The movie-search chapter uses local feature data and needs no model API key or database. I'll note the stack and prerequisites for each chapter as the series grows.
 
 By [Sourabh Malviya](/about).
 
@@ -27,4 +27,8 @@ I start with advisors because I want to see what passes between my application a
 
 Next, I'll turn a Java method into a tool and follow the request through execution. From there, I'll use `ToolSearchToolCallingAdvisor` to discover tools from a larger catalog. I also work through the application's token logs, including why those logs alone don't establish savings over ordinary tool calling.
 
-I'll add chapters and revisit these notes as I learn more. If you're following along from the beginning, start with advisors. If you're here to expose a Java method to a model, the tool-calling chapter is a useful starting point.
+### 03 · [Movie Search with Feature Vectors and Cosine Similarity](/blog/movie-search)
+
+I'll use the [movie-search project](https://github.com/malviys/gen-ai/tree/main/movie-search) to turn query words into feature IDs and rank a local movie catalog. A worked example shows how cosine similarity changes the ordering, why the current calculation ignores stored weights, and where dictionary-based matching reaches its limits. This chapter builds retrieval intuition without calling a model.
+
+I'll add chapters and revisit these notes as I learn more. If you're following along from the beginning, start with advisors. If you're here to expose a Java method to a model, the tool-calling chapter is a useful starting point. For a concrete introduction to comparing vectors, start with movie search.

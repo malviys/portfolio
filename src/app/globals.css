@@ -151,3 +151,39 @@
     animation-delay: 0.4s;
   }
 }
+
+/* Smooth radial View Transitions theme ripple */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+  clip-path: circle(0px at var(--theme-ripple-x, 50%) var(--theme-ripple-y, 50%));
+  -webkit-mask-image: radial-gradient(
+    circle closest-side,
+    #000 0%,
+    #000 66%,
+    rgba(0, 0, 0, 0.55) 83%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle closest-side,
+    #000 0%,
+    #000 66%,
+    rgba(0, 0, 0, 0.55) 83%,
+    transparent 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 0px 0px;
+  mask-size: 0px 0px;
+  -webkit-mask-position: var(--theme-ripple-x, 50%) var(--theme-ripple-y, 50%);
+  mask-position: var(--theme-ripple-x, 50%) var(--theme-ripple-y, 50%);
+}

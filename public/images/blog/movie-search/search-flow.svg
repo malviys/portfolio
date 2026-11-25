@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="868" viewBox="0 0 480 868" role="img" aria-labelledby="title desc">
+<title id="title">From query to ranked movies</title><desc id="desc">Five steps: query text space astronaut survival; lowercase and split into tokens; look up unique feature IDs 1364, 103, and 1429; calculate binary cosine similarity against every movie; return positive matches sorted by score, limited to topK. The first three matches are The Martian, Gravity, and Interstellar. Source: local movie-search code, September 28, 2026.</desc>
+<metadata>Original visual for Sourabh Malviya. Source: movie-search local Java implementation and bundled feature_embedding.json and movies_embedding.json; 2026-09-28. Values are calculated, not a captured API response.</metadata>
+<style>
+:root{color:#0f172a;--muted:#475569;--panel:#f1f5f9;--line:#94a3b8}
+@media(prefers-color-scheme:dark){:root{color:#f1f5f9;--muted:#cbd5e1;--panel:#182332;--line:#64748b}}
+text{fill:currentColor;font-family:Arial,Helvetica,sans-serif;font-size:22px}
+.title{font-size:27px;font-weight:700}.label{font-size:20px;font-weight:700}
+.small{font-size:20px}.muted{fill:var(--muted)}.panel{fill:var(--panel);stroke:var(--line)}
+.arrow{fill:none;stroke:currentColor;stroke-opacity:.5;stroke-width:2;marker-end:url(#arrow)}
+</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<text x="24" y="42" class="title" >From query to ranked movies</text>
+<text x="24" y="76" class="small muted" >Local features · no model call</text>
+<rect x="24" y="108" width="432" height="108" rx="12" class="panel"/>
+<text x="44" y="136" class="label" >01 · QUERY</text>
+<text x="44" y="170" class="" >space astronaut survival</text>
+<text x="44" y="199" class="small muted" >Start with the search text.</text>
+<path d="M240 216V242" class="arrow"/>
+<rect x="24" y="248" width="432" height="108" rx="12" class="panel"/>
+<text x="44" y="276" class="label" >02 · TOKENS</text>
+<text x="44" y="310" class="" >space / astronaut / survival</text>
+<text x="44" y="339" class="small muted" >Lowercase and split on separators.</text>
+<path d="M240 356V382" class="arrow"/>
+<rect x="24" y="388" width="432" height="108" rx="12" class="panel"/>
+<text x="44" y="416" class="label" >03 · FEATURE IDS</text>
+<text x="44" y="450" class="" >{1364, 103, 1429}</text>
+<text x="44" y="479" class="small muted" >Look up words; keep unique IDs.</text>
+<path d="M240 496V522" class="arrow"/>
+<rect x="24" y="528" width="432" height="108" rx="12" class="panel"/>
+<text x="44" y="556" class="label" >04 · COSINE SCORES</text>
+<text x="44" y="590" class="small" >shared / √(query count × movie count)</text>
+<text x="44" y="619" class="small muted" >Compare with every movie’s features.</text>
+<path d="M240 636V662" class="arrow"/>
+<rect x="24" y="668" width="432" height="108" rx="12" class="panel"/>
+<text x="44" y="696" class="label" >05 · RANKED RESULTS</text>
+<text x="44" y="730" class="" >The Martian → Gravity → Interstellar</text>
+<text x="44" y="759" class="small muted" >Keep positive scores; return topK.</text>
+<text x="24" y="815" class="small muted" >Source: local movie-search code</text>
+<text x="24" y="845" class="small muted" >Example query · September 28, 2026</text>
+</svg>

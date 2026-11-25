@@ -7,9 +7,10 @@ import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 
 import Interactive from "@/components/ui/interactive";
+import { toggleThemeWithRipple } from "@/lib/theme-transition";
 
 export default function Header() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -59,7 +60,7 @@ export default function Header() {
 
           {/* Theme toggle */}
           <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={(e) => toggleThemeWithRipple(e, resolvedTheme, setTheme)}
             className="relative rounded-lg p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             aria-label="Toggle theme"
           >
@@ -72,7 +73,7 @@ export default function Header() {
         <div className="flex items-center gap-2 md:hidden">
           {/* Theme toggle (Mobile) */}
           <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={(e) => toggleThemeWithRipple(e, resolvedTheme, setTheme)}
             className="relative rounded-lg p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             aria-label="Toggle theme"
           >

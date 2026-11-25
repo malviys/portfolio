@@ -3,21 +3,83 @@
 import { useState } from "react";
 
 import { SectionHeader } from "@/components/prototype/section-header";
+import {
+  AstroIcon,
+  DockerIcon,
+  ExpoIcon,
+  JavaIcon,
+  JavaScriptIcon,
+  NextjsIcon,
+  PostgresIcon,
+  PythonIcon,
+  ReactNativeIcon,
+  SpringBootIcon,
+  SpringAiIcon,
+  TypeScriptIcon,
+} from "@/components/ui/tech-icons";
 import { cn } from "@/lib/utils";
 
 const hexTools = [
-  { name: "TypeScript", short: "TS", detail: "Strict end-to-end type safety" },
-  { name: "React Native", short: "RN", detail: "Cross-platform native mobile UI" },
-  { name: "Next.js", short: "NX", detail: "App Router & RSC architecture" },
-  { name: "Expo", short: "EX", detail: "Universal native runtime & builds" },
-  { name: "Astro", short: "AS", detail: "Content-first Starlight docs" },
-  { name: "Java", short: "JV", detail: "Enterprise JVM backend services" },
-  { name: "Spring", short: "SP", detail: "Dependency injection & core ecosystem" },
-  { name: "Spring Boot", short: "SB", detail: "Production microservices & REST APIs" },
-  { name: "Spring AI", short: "AI", detail: "Java tool calling & advisors" },
-  { name: "Postgres", short: "PG", detail: "Relational data modeling & queries" },
-  { name: "Redis", short: "RD", detail: "In-memory caching & rate limiting" },
-  { name: "Docker", short: "DK", detail: "Lean multi-stage containers" },
+  {
+    name: "TypeScript",
+    icon: TypeScriptIcon,
+    detail: "Strict end-to-end type safety",
+  },
+  {
+    name: "JavaScript",
+    icon: JavaScriptIcon,
+    detail: "Modern ESNext & dynamic web runtimes",
+  },
+  {
+    name: "Python",
+    icon: PythonIcon,
+    detail: "AI scripting, embeddings & agentic workflows",
+  },
+  {
+    name: "Java",
+    icon: JavaIcon,
+    detail: "Enterprise JVM backend services",
+  },
+  {
+    name: "React Native",
+    icon: ReactNativeIcon,
+    detail: "Cross-platform native mobile UI",
+  },
+  {
+    name: "Next.js",
+    icon: NextjsIcon,
+    detail: "App Router & RSC architecture",
+  },
+  {
+    name: "Expo",
+    icon: ExpoIcon,
+    detail: "Universal native runtime & builds",
+  },
+  {
+    name: "Astro",
+    icon: AstroIcon,
+    detail: "Content-first Starlight docs",
+  },
+  {
+    name: "Spring Boot",
+    icon: SpringBootIcon,
+    detail: "Production microservices & REST APIs",
+  },
+  {
+    name: "Spring AI",
+    icon: SpringAiIcon,
+    detail: "Java tool calling & advisors",
+  },
+  {
+    name: "Postgres",
+    icon: PostgresIcon,
+    detail: "Relational data modeling & queries",
+  },
+  {
+    name: "Docker",
+    icon: DockerIcon,
+    detail: "Lean multi-stage containers",
+  },
 ];
 
 const craftMetrics = [
@@ -73,12 +135,14 @@ export function CraftSection() {
                   onMouseEnter={() => setHoveredTool(`${tool.name} — ${tool.detail}`)}
                   onFocus={() => setHoveredTool(`${tool.name} — ${tool.detail}`)}
                   className={cn(
-                    "group relative flex h-20 w-20 flex-col items-center justify-center rounded-2xl border border-border bg-background transition-all duration-300",
+                    "group relative flex h-20 w-20 flex-col items-center justify-center rounded-2xl border border-border bg-background p-2 transition-all duration-300",
                     "hover:-translate-y-1 hover:scale-[1.04] hover:border-primary/40 hover:bg-primary/10",
                   )}
                 >
-                  <span className="font-mono text-sm font-bold text-primary">{tool.short}</span>
-                  <span className="mt-1 px-1 text-center text-[11px] font-medium leading-tight text-muted-foreground group-hover:text-foreground">
+                  <span className="flex h-7 w-7 items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                    <tool.icon className="h-6 w-6 shrink-0" />
+                  </span>
+                  <span className="mt-1 px-0.5 text-center text-[11px] font-medium leading-tight text-muted-foreground transition-colors group-hover:text-foreground">
                     {tool.name}
                   </span>
                 </button>
